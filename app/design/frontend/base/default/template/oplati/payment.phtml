@@ -1,0 +1,16 @@
+<?php
+$qrsize = Mage::getStoreConfig('payment/oplati/qrsize');
+?>
+
+<div id="oplati" style="text-align: center;" data-form-key="<?= Mage::getSingleton('core/session')->getFormKey() ?>" data-timeout="<?= (Mage::getStoreConfig('payment/oplati/check_status_timeout') * 1000) ?>">
+    <div class="page-title">
+        <h1><?php echo $this->__('Для оплаты отсканируйте QR код или нажмите на ссылку') ?></h1>
+    </div>
+
+    <p>
+        <img src="https://chart.googleapis.com/chart?cht=qr&chl=<?= $this->getDynamicQR() ?>&chs=<?= $qrsize ?>x<?= $qrsize ?>&choe=UTF-8&chld=L|2" alt="<?= $this->__('Оплатить через «Оплати»') ?>" style="display: inline;">
+    </p>
+    <p>
+        <a class="btn btn-default" href="https://getapp.o-plati.by/map/?app_link=<?= $this->getDynamicQR() ?>" target="_blank"><?= $this->__('Оплатить через «Оплати»') ?></a>
+    </p>
+</div>
