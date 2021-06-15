@@ -91,6 +91,11 @@ class Oplati_Oplati_ProcessingController extends Mage_Core_Controller_Front_Acti
             $order->setState(Mage::getStoreConfig('payment/oplati/new_order_status'), true);
             $this->_getHelper()->createOplatiTransaction($order);
             $session->setOplatiTransaction($this->_getHelper()->getOplatiTransaction());
+            if (Mage::getStoreConfig('payment/oplati/sava_transaction') === '1') {
+                /** @var Oplati_Oplati_Model_Method $oplati */
+                $oplati = Mage::getModel('oplati/method');
+                $oplati->saveTransaction($order, $this->_getHelper()->getOplatiTransaction());
+            }
             $session->getQuote()->setIsActive(false)->save();
             $session->clear();
             $this->_resp['data'] = $this->getLayout()->createBlock('oplati/payment')->setTemplate('oplati/payment.phtml')->toHtml();
